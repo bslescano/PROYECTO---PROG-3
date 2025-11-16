@@ -1,0 +1,12 @@
+export const HOME = '/';
+export const LOGIN = '/login';
+export const CLIENTS = '/clients';
+export const CREAR = '/create';
+export const EDITAR = '/edit/:id';
+export const VIEW = '/view/:id';
+export const DASHBOARD = '/dashboard';
+export const RESERVAS_DASHBOARD = '/reservas-dashboard';
+export const CLIENTS_DASHBOARD = '/clients-dashboard';
+export const PAGOS_DASHBOARD = '/pagos-dashboard';
+export const HABITACIONES_DASHBOARD = '/habitaciones-dashboard';
+export const ADMIN = '/admin';

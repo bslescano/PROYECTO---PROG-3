@@ -1,0 +1,32 @@
+{
+  "clientes": [
+    {
+      "id": "a6c2",
+      "nombre": "Blas Sebastian Lescano",
+      "dni": "43227437",
+      "email": "lescanoblassebastian@gmail.com",
+      "celular": "3812182050",
+      "adults": 2,
+      "children": 1,
+      "persons": 3,
+      "room": "Habitacion 1"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "admin123"
+    },
+    {
+      "id": "2",
+      "username": "user1",
+      "password": "user123"
+    },
+    {
+      "id": "3",
+      "username": "user2",
+      "password": "user456"
+    }
+  ]
+}
