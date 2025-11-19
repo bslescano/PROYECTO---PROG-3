@@ -14,7 +14,7 @@ import PagosDashboardPage from "./Pages/PagosDashboardPage";
 import HabitacionesDashboardPage from "./Pages/HabitacionesDashboardPage";
 import AdminPage from "./Pages/AdminPage";
 import { HOME, ADMIN, CLIENTS, LOGIN, VIEW, EDITAR, CREAR, DASHBOARD, RESERVAS_DASHBOARD, CLIENTS_DASHBOARD, PAGOS_DASHBOARD, HABITACIONES_DASHBOARD } from "./Routers/Router";
-
+import Chatbot from './Components/Chatbot';
 function App() {
   return (
     <BrowserRouter>
@@ -37,6 +37,7 @@ function App() {
           </Routes>
         </main>
       </div>
+      <Chatbot />
     </BrowserRouter>
   );
 }
