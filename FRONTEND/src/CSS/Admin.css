@@ -1,41 +1,97 @@
-body {
-    color: #1a202c;
+/* FRONTEND/src/CSS/Admin.css */
+
+/* Reseteo para asegurar que ocupe toda la pantalla */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.main-container {
-  background-color: #1a202c;
-  min-height: 100vh;
+/* Contenedor Padre: Flexbox horizontal */
+.dashboard-layout {
+  display: flex;
+  height: 100vh; /* 100% del alto de la ventana */
+  overflow: hidden; /* Evita scroll doble */
 }
 
-.dashboard-container {
-  background-color: #f8f9fa;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+/* --- ESTILOS DEL SIDEBAR --- */
+.sidebar {
+  width: 260px; /* Ancho fijo */
+  background-color: #1a202c; /* Color oscuro (tu paleta actual) */
+  color: #ecf0f1;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0; /* Evita que se encoja si hay poco espacio */
+  transition: all 0.3s;
 }
 
-.dashboard-table thead th {
-  background-color: #343a40;
+.sidebar-header {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #34495e;
+}
+
+.sidebar-nav {
+  flex: 1; /* Ocupa el espacio disponible */
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  color: #bdc3c7;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 1rem;
+  border-left: 4px solid transparent;
+}
+
+.nav-link:hover {
+  background-color: #2c3e50;
   color: white;
-  border-bottom: none;
 }
 
-.dashboard-table tbody tr:hover {
-  background-color: #e9ecef;
-  transform: scale(1.02);
-  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+.nav-link.active {
+  background-color: #2c3e50;
+  color: white;
+  border-left: 4px solid #3498db; /* Borde azul indicando activo */
 }
 
-.dashboard-table td, .dashboard-table th {
-  vertical-align: middle;
-  padding: 1rem;
+.nav-link .material-symbols-outlined {
+  margin-right: 15px;
+  font-size: 20px;
 }
 
-.dashboard-table .material-symbols-outlined {
-  color: #495057;
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid #34495e;
 }
 
-.icon-col {
-  width: 5%;
+.logout {
+  color: #e74c3c !important;
+}
+
+/* --- ESTILOS DEL CONTENIDO PRINCIPAL --- */
+.main-content {
+  flex: 1; /* Toma todo el ancho restante */
+  background-color: #f4f6f9;
+  overflow-y: auto; /* El scroll ocurre AQUÍ, no en toda la página */
+  padding: 0;
+  position: relative;
+}
+
+/* Ajustes para tus tablas existentes dentro del nuevo dashboard */
+.dashboard-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }

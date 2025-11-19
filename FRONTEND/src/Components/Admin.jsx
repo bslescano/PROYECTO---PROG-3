@@ -1,65 +1,59 @@
-import React from 'react'
-import { RESERVAS_DASHBOARD, CLIENTS_DASHBOARD, HABITACIONES_DASHBOARD, PAGOS_DASHBOARD } from '../Routers/Router';
-import { Link } from 'react-router-dom';
+// FRONTEND/src/Components/Admin.jsx
+import React from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import { RESERVAS_DASHBOARD, CLIENTS_DASHBOARD, HABITACIONES_DASHBOARD, PAGOS_DASHBOARD, ADMIN, HOME } from '../Routers/Router'; // Asegúrate que la importación coincida con el nombre del archivo (router.js o Router.js)
 import '../CSS/Admin.css';
 
 const Admin = () => {
-    const dashboardItems = [
-    {
-      to: RESERVAS_DASHBOARD,
-      title: 'Administrar Reservas',
-      description: 'Gestiona las reservas de los clientes, crea nuevas y actualiza las existentes.',
-      icon: 'book_online'
-    },
-    {
-      to: CLIENTS_DASHBOARD,
-      title: 'Administrar Clientes',
-      description: 'Consulta, edita y gestiona la información de los clientes del hotel.',
-      icon: 'group'
-    },
-    {
-      to: HABITACIONES_DASHBOARD,
-      title: 'Administrar Habitaciones',
-      description: 'Gestiona las habitaciones, sus tipos, precios y disponibilidad.',
-      icon: 'bed'
-    },
-    {
-      to: PAGOS_DASHBOARD,
-      title: 'Administrar Pagos',
-      description: 'Registra y gestiona los pagos asociados a las reservas.',
-      icon: 'payments'
-    }
+  const location = useLocation(); // Para saber en qué pagina estamos y resaltar el botón
+
+  const menuItems = [
+    { to: ADMIN, title: 'Inicio', icon: 'dashboard' }, // Un home para el dashboard
+    { to: RESERVAS_DASHBOARD, title: 'Reservas', icon: 'book_online' },
+    { to: CLIENTS_DASHBOARD, title: 'Clientes', icon: 'group' },
+    { to: HABITACIONES_DASHBOARD, title: 'Habitaciones', icon: 'bed' },
+    { to: PAGOS_DASHBOARD, title: 'Pagos', icon: 'payments' },
   ];
 
   return (
-    <div className="page-wrapper">
-      <main>
-        <section className="rooms-section">
-          <div className="container">
-            <div className="text-center">
-              <h2>Panel de Administración</h2>
-              <p>Seleccione una sección para gestionar el contenido.</p>
-            </div>
-            <div className="grid">
-              {dashboardItems.map((item, index) => (
-                <Link to={item.to} key={index} className="card-link">
-                  <div className="card">
-                    <div className="card-content text-center">
-                      <div className="icon-wrapper">
-                        <span className="material-symbols-outlined">{item.icon}</span>
-                      </div>
-                      <h3>{item.title}</h3>
-                      <p>{item.description}</p>
-                    </div>
-                  </div>
+    <div className="dashboard-layout">
+      {/* --- SIDEBAR --- */}
+      <aside className="sidebar">
+        <div className="sidebar-header">
+          <h2>Hotel Admin</h2>
+        </div>
+        
+        <nav className="sidebar-nav">
+          <ul>
+            {menuItems.map((item, index) => (
+              <li key={index}>
+                <Link 
+                  to={item.to} 
+                  className={`nav-link ${location.pathname === item.to ? 'active' : ''}`}
+                >
+                  <span className="material-symbols-outlined">{item.icon}</span>
+                  <span className="link-text">{item.title}</span>
                 </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="sidebar-footer">
+          <Link to={HOME} className="nav-link logout">
+             <span className="material-symbols-outlined">logout</span>
+             <span>Salir</span>
+          </Link>
+        </div>
+      </aside>
+
+      {/* --- CONTENIDO PRINCIPAL --- */}
+      <main className="main-content">
+        {/* Aquí es donde React Router inyectará tus tablas (Clientes, Reservas, etc) */}
+        <Outlet />{/* actúa como una ventana: "Aquí renderiza lo que toque según la URL" */}
       </main>
     </div>
   );
 }
 
-export default Admin
+export default Admin;

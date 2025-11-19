@@ -1,12 +1,18 @@
-export const HOME = '/';
+// FRONTEND/src/Routers/router.js
+
+export const HOME = '/home';
 export const LOGIN = '/login';
-export const CLIENTS = '/clients';
 export const CREAR = '/create';
 export const EDITAR = '/edit/:id';
 export const VIEW = '/view/:id';
-export const DASHBOARD = '/dashboard';
-export const RESERVAS_DASHBOARD = '/reservas-dashboard';
-export const CLIENTS_DASHBOARD = '/clients-dashboard';
-export const PAGOS_DASHBOARD = '/pagos-dashboard';
-export const HABITACIONES_DASHBOARD = '/habitaciones-dashboard';
+export const CLIENTS = '/clients';
+export const DASHBOARD = "/dashboard"; // Ruta pública de dashboard (si aún la usamos)
+
+// Rutas del Dashboard
 export const ADMIN = '/admin';
+// Nota como ahora son sub-rutas (no empiezan con /, son relativas si usas children en el router, 
+// pero para simplificarte la vida ahora, usaremos rutas absolutas claras)
+export const RESERVAS_DASHBOARD = '/admin/reservas'; 
+export const CLIENTS_DASHBOARD = '/admin/clientes';
+export const PAGOS_DASHBOARD = '/admin/pagos';
+export const HABITACIONES_DASHBOARD = '/admin/habitaciones';
