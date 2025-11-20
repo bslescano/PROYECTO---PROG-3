@@ -103,8 +103,9 @@ const PagosTable = () => {
   };
 
   const renderFormulario = () => (
-    <form onSubmit={handleSubmit} className="border p-4 rounded bg-light mb-4">
-      <h3>{modo === 'crear' ? 'Registrar Nuevo Pago' : 'Editar Pago'}</h3>
+    <form onSubmit={handleSubmit} className="reserva-form border p-4 rounded bg-light mb-4">
+      {/* Título modificado: solo muestra "Editar Pago" */}
+      <h3>{modo === 'editar' ? 'Editar Pago' : ''}</h3>
       <h4>Detalles del Pago</h4>
       <div className="mb-3">
         <label htmlFor="id_reserva" className="form-label">ID de Reserva</label>
@@ -171,63 +172,82 @@ const PagosTable = () => {
       )}
 
       <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="button" className="app-button btn-secondary" onClick={handleCancelar}>Cancelar</button>
-        <button type="submit" className="app-button btn-primary" >{modo === 'crear' ? 'Guardar Pago' : 'Guardar Cambios'}</button>
+        <button type="button" className="btn btn-secondary me-3" onClick={handleCancelar}>Cancelar</button>
+        <button type="submit" className="btn btn-primary" >{modo === 'crear' ? 'Guardar Pago' : 'Guardar Cambios'}</button>
       </div>
     </form>
   );
 
   return (
     <div>
-      <button className="app-button btn-success mb-3" onClick={() => setModo('crear')}>Registrar Nuevo Pago</button>
+      <h2>Pagos</h2> {/* Título principal */}
       
-      {modo !== 'lista' && renderFormulario()}
+      {/* ELIMINADO: renderFormulario en la parte superior. */}
 
       <hr className="my-4" />
 
       <h2>Pagos Existentes</h2>
-      <Table className="table table-striped mt-3">
-        <thead>
-          <tr>
-            <th>ID Pago</th>
-            <th>ID Reserva</th>
-            <th>Monto</th>
-            <th>Fecha Pago</th>
-            <th>Método Pago</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {pagos.map((pago) => (
-            <tr key={pago.id_pago}>
-              <td>{pago.id_pago}</td>
-              <td>{pago.id_reserva}</td>
-              <td>${pago.monto}</td>
-              <td>{new Date(pago.fecha_pago).toLocaleDateString()}</td>
-              <td>{pago.metodo_pago}</td>
-              <td>{pago.estado}</td>
-              <td>
-                <div>
-                  <button
-                    className="app-button btn-warning btn-sm me-2"
-                    onClick={() => handleEditar(pago)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="app-button btn-danger btn-sm me-2"
-                    onClick={() => borrarPago(pago.id_pago)}
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              </td>
+      
+      {/* Contenedor añadido para el redondeo y centrado de la tabla */}
+      <div className="reserva-table-container">
+        <Table className="table table-striped mb-0">
+          <thead>
+            <tr>
+              <th>ID Pago</th>
+              <th>ID Reserva</th>
+              <th>Monto</th>
+              <th>Fecha Pago</th>
+              <th>Método Pago</th>
+              <th>Estado</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+
+          <tbody>
+            {pagos.map((pago) => (
+              <tr key={pago.id_pago}>
+                <td>{pago.id_pago}</td>
+                <td>{pago.id_reserva}</td>
+                <td>${pago.monto}</td>
+                <td>{new Date(pago.fecha_pago).toLocaleDateString()}</td>
+                <td>{pago.metodo_pago}</td>
+                <td>{pago.estado}</td>
+                <td>
+                  <div>
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => handleEditar(pago)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm me-2"
+                      onClick={() => borrarPago(pago.id_pago)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+      
+      {/* BLOQUE DE ACCIÓN INFERIOR: Botón SIEMPRE visible, Formulario CONDICIONAL (ambos abajo) */}
+
+      {/* 1. Botón (Siempre visible, centrado y simétrico) */}
+      <div className="centered-button-container">
+        <button 
+            className="btn btn-success" 
+            onClick={() => setModo('crear')}
+        >
+            Registrar Nuevo Pago
+        </button>
+      </div>
+      
+      {/* 2. Formulario (Solo se renderiza al hacer click o editar) */}
+      {modo !== 'lista' && renderFormulario()}
     </div>
   );
 };

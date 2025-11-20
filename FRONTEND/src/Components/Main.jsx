@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import GuestPicker from "./GuestPicker"; // Importar el nuevo componente
 import "../CSS/Main.css";
 import Footer from "./Footer";
-import GuestPicker from "./GuestPicker"; // Importar el nuevo componente
 
+const API_BASE_URL = 'http://localhost:3000/api';
 
 export default function Main() {
   const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
@@ -15,33 +16,55 @@ export default function Main() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Nuevos estados para cargar habitaciones
+  const [rooms, setRooms] = useState([]);
+  const [isLoadingRooms, setIsLoadingRooms] = useState(true);
+  const [roomsError, setRoomsError] = useState(null);
+
+  // Efecto para cargar las habitaciones al montar el componente
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/habitaciones`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setRooms(data);
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+        setRoomsError(error.message);
+      } finally {
+        setIsLoadingRooms(false);
+      }
+    };
+
+    fetchRooms();
+  }, []); // El array vacío asegura que se ejecute solo una vez al montar
+
   const toggleAvailabilityModal = () => {
     setShowAvailabilityModal(!showAvailabilityModal);
   };
 
   const handleCheckInDateChange = (e) => {
     setCheckInDate(e.target.value);
-    // Si la fecha de salida es anterior a la nueva fecha de entrada, ajustarla
     if (checkOutDate && e.target.value && new Date(checkOutDate) <= new Date(e.target.value)) {
       const newCheckOut = new Date(e.target.value);
-      newCheckOut.setDate(newCheckOut.getDate() + 1); // Establecer la salida al día siguiente de la entrada
+      newCheckOut.setDate(newCheckOut.getDate() + 1);
       setCheckOutDate(newCheckOut.toISOString().split('T')[0]);
     }
   };
 
   const handleCheckOutDateChange = (e) => {
-    // Asegurarse de que la fecha de salida no sea anterior a la fecha de entrada
     if (checkInDate && new Date(e.target.value) <= new Date(checkInDate)) {
-      // Opcional: mostrar un error al usuario o ajustar automáticamente
       const newCheckOut = new Date(checkInDate);
-      newCheckOut.setDate(newCheckOut.getDate() + 1); // Forzar la salida al día siguiente de la entrada
+      newCheckOut.setDate(newCheckOut.getDate() + 1);
       setCheckOutDate(newCheckOut.toISOString().split('T')[0]);
     } else {
       setCheckOutDate(e.target.value);
     }
   };
 
-  // Funciones para manejar el GuestPicker
   const handleGuestPickerClick = () => {
     setShowGuestPicker(!showGuestPicker);
   };
@@ -60,16 +83,16 @@ export default function Main() {
     setIsLoading(true);
     setError(null);
     setAvailabilityMessage('Cargando disponibilidad...');
-    setShowAvailabilityModal(true); // Abrir el modal inmediatamente al iniciar la verificación
+    setShowAvailabilityModal(true);
 
     try {
-      const backendUrl = 'http://localhost:3000/api/habitaciones/check-availability'; 
+      const backendUrl = `${API_BASE_URL}/habitaciones/check-availability`; 
       const response = await fetch(backendUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ checkInDate, checkOutDate, adults: numAdults, children: numChildren }), // Enviar adultos y niños
+        body: JSON.stringify({ checkInDate, checkOutDate, adults: numAdults, children: numChildren }),
       });
 
       if (!response.ok) {
@@ -126,7 +149,7 @@ export default function Main() {
                       type="date" 
                       value={checkOutDate} 
                       onChange={handleCheckOutDateChange}
-                      min={checkInDate} // Establece la fecha mínima de salida
+                      min={checkInDate}
                     />
                   </label>
                   <label className="guest-picker-label-container">
@@ -171,45 +194,21 @@ export default function Main() {
                 <p>Diseñadas para tu máximo confort y relajación.</p>
               </div>
               <div className="grid">
-                <div className="card">
-                  <img
-                    alt="Moderna habitación de hotel estándar con un interior limpio y bien iluminado y una cama grande."
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUrk7oI4MZUROwfvwwajC7X0qTmNp7kqwwK_zOJ2XrS_xqBiV-bBBAHeTg9j4Tw7xx9mwu27SEBcMhZV4wsHi7AExqjrFRolXv_6xZXk8nX2P7cSZU9KrNIbVeo9JAKyMwG7NqPtQhmkPojDM4iZ_QoykceU1yq66cYvSFulhehkNBC89aJ6CEILhz4zpQ5eBLZBsNpeWh6IJx1WLFIWy4SjRY-ikqKUmHD9l2-7qwfxCHKzFkIsI3hG18Vq21Lk4RIW4ChEwEhE8"
-                  />
-                  <div className="card-content">
-                    <h3>Habitación Estándar</h3>
-                    <p>
-                      Perfecta para viajeros solos o parejas, con todas las
-                      comodidades esenciales.
-                    </p>
+                {isLoadingRooms && <p>Cargando habitaciones...</p>}
+                {roomsError && <p style={{ color: 'red' }}>Error al cargar habitaciones: {roomsError}</p>}
+                {!isLoadingRooms && rooms.length === 0 && <p>No hay habitaciones disponibles para mostrar.</p>}
+                {!isLoadingRooms && rooms.length > 0 && rooms.map(room => (
+                  <div className="card" key={room.id_habitacion}>
+                    <img
+                      alt={room.descripcion || `Imagen de la habitación ${room.numero}`}
+                      src={room.url_imagen || 'https://via.placeholder.com/400x250.png?text=No+Image'} 
+                    />
+                    <div className="card-content">
+                      <h3>{room.tipo} - Habitación {room.numero}</h3>
+                      <p>{room.descripcion || 'No hay descripción disponible para esta habitación.'}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="card">
-                  <img
-                    alt="Suite de lujo con una cama grande y una ventana panorámica con vistas a la ciudad."
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtbBm5AGmHsQ3fvS6W73GiOrQvZFT6cT8IXUcop8-1HYUhOvKlGIAFOiz3fCI8IpVxgOyHT_-olyjOy1OMc4vTYmyU_QASToo_PzJ7xyHksxGGayu0gwDOkAod53lzP5fWwQl1B2WuhrQ48O_G3WeJ5aa9xyYmYwrlqfzf6ozCzjGOukfBBrDQ5-YjQ4yc3bGGKH0teSv_ZGp2dz6-IYau_cwsByTB7WQ5ZN9VVtWCwLu13Qp5LBBAqYAVXe1AJJgykz8jqZnMlI4"
-                  />
-                  <div className="card-content">
-                    <h3>Suite con Vistas</h3>
-                    <p>
-                      Disfruta de vistas espectaculares y un espacio amplio y
-                      elegante.
-                    </p>
-                  </div>
-                </div>
-                <div className="card">
-                  <img
-                    alt="Amplia habitación familiar con varias camas y una cómoda zona de estar."
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNO4Ak_5CsPhxrWRqdbgcsrDYpMpP-SWLeMyPnZfSaMJqttryz6P_5x_Vqj0VAsbu_bYhI2Ncg8n3uk9IVstkm-qhZiaDpN8T27cSpQVoj0CdBDf5NMmldSFr1DO7kv7ucS-hbXQRvjZ0zEgsZWZYLXXAxObAbfhmYCmUzi24iXqgiyL0jP-5ijbfOn8tbVgoasT0U3BKaWhGm2p67Wpz9LatFHriDLBLJZ-O2UNGrr5ejyjShUkelHsKldhQGwUWfpfkvaZLjjBc"
-                  />
-                  <div className="card-content">
-                    <h3>Habitación Familiar</h3>
-                    <p>
-                      Espacio y comodidad para toda la familia durante su
-                      estancia.
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </section>
@@ -319,6 +318,8 @@ export default function Main() {
               </div>
             </div>
           </section>
+
+          <Footer />
         </main>
 
       </div>

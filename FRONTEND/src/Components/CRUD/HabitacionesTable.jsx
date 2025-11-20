@@ -2,18 +2,22 @@ import { Table, Button, Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { URL_HABITACIONES } from "../../Components/Constants/EndPoint.js";
+import HabitacionForm from "../HabitacionForm"; // Importar el componente HabitacionForm
 
 const habitacionVacia = {
   numero: "",
   tipo: "Simple",
   precio_noche: 0,
   estado: "disponible",
+  url_imagen: "", // Añadido
+  descripcion: "", // Añadido
+  capacidad: 1, // Añadido
 };
 
 const HabitacionesTable = () => {
   const [habitaciones, setHabitaciones] = useState([]);
   const [habitacionActual, setHabitacionActual] = useState(habitacionVacia);
-  const [modo, setModo] = useState('lista');
+  const [showForm, setShowForm] = useState(false); // Estado para controlar la visibilidad del formulario
   const [errorFormulario, setErrorFormulario] = useState(null);
 
   const cargarDatos = async () => {
@@ -42,129 +46,70 @@ const HabitacionesTable = () => {
     }
   };
 
-  const handleEditar = (habitacion) => {
+  const handleOpenForm = (habitacion = habitacionVacia) => {
     setHabitacionActual(habitacion);
-    setModo('editar');
+    setShowForm(true);
     setErrorFormulario(null);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setHabitacionActual(prevState => ({
-      ...prevState,
-      [name]: e.target.type === "number" ? parseInt(value, 10) || 0 : value,
-    }));
+  const handleCloseForm = () => {
+    setShowForm(false);
+    setHabitacionActual(habitacionVacia);
+    setErrorFormulario(null);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!habitacionActual.numero || habitacionActual.precio_noche <= 0) {
-      setErrorFormulario('Número y Precio por Noche son obligatorios y el precio debe ser mayor a 0.');
-      return;
-    }
-
+  const handleSaveHabitacion = async (formData) => {
     setErrorFormulario(null);
-
+    console.log("Datos enviados desde el frontend:", formData); // <-- Añadido
     try {
-      if (modo === 'editar') {
-        console.log("Enviando para editar:", habitacionActual);
+      if (formData.id_habitacion) { // Si tiene id, es una edición
+        console.log("Enviando para editar:", formData);
         await axios.put(
-          `${URL_HABITACIONES}/${habitacionActual.id_habitacion}`,
-          habitacionActual,
+          `${URL_HABITACIONES}/${formData.id_habitacion}`,
+          formData,
           { headers: { 'Content-Type': 'application/json' } }
         );
-      } else {
-        
-        await axios.post(URL_HABITACIONES, habitacionActual, { headers: { 'Content-Type': 'application/json' } });
+      } else { // Si no tiene id, es una creación
+        console.log("Enviando para crear:", formData);
+        await axios.post(URL_HABITACIONES, formData, { headers: { 'Content-Type': 'application/json' } });
       }
       cargarDatos();
-      setModo('lista');
-      setHabitacionActual(habitacionVacia);
+      handleCloseForm();
     } catch (error) {
       console.error('Error al guardar:', error);
       setErrorFormulario(error.response?.data?.details || 'Error al guardar la habitación. Intente de nuevo.');
     }
   };
 
-  const handleCancelar = () => {
-    setModo('lista');
-    setHabitacionActual(habitacionVacia);
-    setErrorFormulario(null);
-  };
+  return (
+    <Container>
+      <h2 className="my-4">Gestión de Habitaciones</h2>
+      <Button variant="success" className="mb-3" onClick={() => handleOpenForm()}>Registrar Nueva Habitación</Button>
 
-  const renderFormulario = () => (
-    <form onSubmit={handleSubmit} className="border p-4 rounded bg-light mb-4">
-      <h3>{modo === 'crear' ? 'Registrar Nueva Habitación' : 'Editar Habitación'}</h3>
-      <div className="mb-3">
-        <label htmlFor="numero" className="form-label">Número de Habitación</label>
-        <input
-          type="text"
-          className="form-control"
-          id="numero"
-          name="numero"
-          value={habitacionActual.numero}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="tipo" className="form-label">Tipo de Habitación</label>
-        <select className="form-select" id="tipo" name="tipo" value={habitacionActual.tipo} onChange={handleChange}>
-          <option value="Simple">Simple</option>
-          <option value="Doble">Doble</option>
-          <option value="Suite">Suite</option>
-        </select>
-      </div>
-      <div className="mb-3">
-        <label htmlFor="precio_noche" className="form-label">Precio por Noche</label>
-        <input
-          type="number"
-          className="form-control"
-          id="precio_noche"
-          name="precio_noche"
-          value={habitacionActual.precio_noche}
-          onChange={handleChange}
-          min="0"
-          required
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="estado" className="form-label">Estado Actual</label>
-        <select className="form-select" id="estado" name="estado" value={habitacionActual.estado} onChange={handleChange}>
-          <option value="disponible">Disponible</option>
-          <option value="ocupada">Ocupada</option>
-          <option value="mantenimiento">Mantenimiento</option>
-        </select>
-      </div>
       {errorFormulario && (
         <div className="alert alert-danger" role="alert">
           {errorFormulario}
         </div>
       )}
-      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="button" className="btn btn-secondary" onClick={handleCancelar}>Cancelar</button>
-        <button type="submit" className="btn btn-primary" >{modo === 'crear' ? 'Guardar Habitación' : 'Guardar Cambios'}</button>
-      </div>
-    </form>
-  );
 
-  return (
-    <div>
-      <button className="btn btn-success mb-3" onClick={() => setModo('crear')}>Registrar Nueva Habitación</button>
+      <HabitacionForm 
+        isOpen={showForm} 
+        onClose={handleCloseForm} 
+        onSave={handleSaveHabitacion} 
+        habitacion={habitacionActual.id_habitacion ? habitacionActual : null} // Pasar null si es creación
+      />
 
-      {modo !== 'lista' && renderFormulario()}
-
-      <hr className="my-4" />
-
-      <h2>Habitaciones Existentes</h2>
-      <Table className="table table-striped mt-3">
+      <Table striped bordered hover responsive className="mt-3">
         <thead>
           <tr>
             <th>Id</th>
             <th>Número</th>
             <th>Tipo</th>
-            <th>Precio</th>
+            <th>Capacidad</th> {/* Añadido */}
+            <th>Precio/Noche</th>
             <th>Estado</th>
+            <th>Imagen</th> {/* Añadido */}
+            <th>Descripción</th> {/* Añadido */}
             <th>Acciones</th>
           </tr>
         </thead>
@@ -174,27 +119,33 @@ const HabitacionesTable = () => {
               <td>{hab.id_habitacion}</td>
               <td>{hab.numero}</td>
               <td>{hab.tipo}</td>
+              <td>{hab.capacidad}</td> {/* Añadido */}
               <td>${hab.precio_noche}</td>
               <td>{hab.estado}</td>
+              <td><img src={hab.url_imagen} alt={`Habitación ${hab.numero}`} style={{ width: '100px', height: 'auto' }} /></td> {/* Añadido */}
+              <td>{hab.descripcion}</td> {/* Añadido */}
               <td>
-                <button 
-                  className="btn btn-warning btn-sm me-2"
-                  onClick={() => handleEditar(hab)}
+                <Button 
+                  variant="warning" 
+                  size="sm" 
+                  className="me-2"
+                  onClick={() => handleOpenForm(hab)} // Abre el formulario con los datos de la habitación
                 >
                   Editar
-                </button>
-                <button 
-                  className="btn btn-danger btn-sm"
+                </Button>
+                <Button 
+                  variant="danger" 
+                  size="sm"
                   onClick={() => borrarHabitacion(hab.id_habitacion)}
                 >
                   Borrar
-                </button>
+                </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
-    </div>
+    </Container>
   );
 };
 

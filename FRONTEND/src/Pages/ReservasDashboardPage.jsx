@@ -12,7 +12,6 @@ const ReservasDashboardPage = () => {
           <button className="menu-button">
             <span className="material-symbols-outlined">menu</span>
           </button>
-          <h1 className="page-title">Gestionar Reservas</h1>
           <div className="spacer"></div>
         </header>
 
@@ -28,7 +27,7 @@ const ReservasDashboardPage = () => {
           </div>
         </div>
 
-        <main className="room-list">
+        <main className="room-list reservas-dashboard">
           <div className="reservas-table-wrapper">
             <ReservasTable searchTerm={searchTerm} />
           </div>

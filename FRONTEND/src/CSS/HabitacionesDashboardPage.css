@@ -324,6 +324,132 @@
   font-size: 1.875rem; /* text-3xl */
 }
 
+/* ESTILOS PERSONALIZADOS SOBRESCRIBIENDO BOOTSTRAP */
+
+/* 1. Botón "Registrar Nuevo Cliente/Reserva/Pago" (btn-success) */
+.btn-success {
+    background-color: #76d6f9c7 !important; /* Azul Claro/Morado */
+    border-color: #76d6f9c7 !important;
+    color: #ffffff !important;
+}
+
+.btn-success:hover {
+    background-color: #1792cfa7 !important; /* Azul más oscuro en hover */
+    border-color: #1792cfa7 !important;
+}
+
+/* 2. Botón "Editar" (btn-warning) */
+.btn-warning {
+    background-color: #3b4f6b !important; /* Gris Oscuro/Azul */
+    border-color: #3b4f6b !important;
+    color: #ffffff !important;
+}
+
+.btn-warning:hover {
+    background-color: #1B2838 !important; /* Gris más oscuro en hover */
+    border-color: #1B2838 !important;
+}
+
+/* 3. Botón "Borrar/Eliminar" (btn-danger) */
+.btn-danger {
+    background-color: #d900009a !important; /* Rojo Opaco */
+    border-color: #d900009a !important;
+}
+
+.btn-danger:hover {
+    background-color: #a60000 !important; /* Rojo más oscuro en hover */
+    border-color: #a60000 !important;
+}
+
+/* 4. Botón "Buscar y Asignar Habitación" (btn-info) */
+.btn-info {
+    background-color: #3b4f6b !important; /* Gris Oscuro/Azul */
+    border-color: #3b4f6b !important;
+    color: #ffffff !important;
+}
+
+.btn-info:hover {
+    background-color: #1B2838 !important; /* Gris más oscuro en hover */
+    border-color: #1B2838 !important;
+}
+
+/* 5. Botón "Cancelar" (btn-secondary) */
+.btn-secondary {
+    background-color: #ff9900b1 !important; /* Naranja para acción secundaria/neutral */
+    border-color: #FF9800 !important;
+    color: #ffffff !important;
+}
+
+.btn-secondary:hover {
+    background-color: #E68A00 !important; /* Naranja más oscuro en hover */
+    border-color: #E68A00 !important;
+}
+
+/* 6. Botón "Guardar Reserva/Cambios" (btn-primary) */
+.btn-primary {
+    background-color: #1792cfa7 !important; /* Azul Primario */
+    border-color: #1792cfa7 !important;
+    color: #ffffff !important;
+}
+
+.btn-primary:hover {
+    background-color: #116999 !important; /* Azul más oscuro en hover */
+    border-color: #116999 !important;
+}
+
+/* Estilos para el formulario de Reserva/Cliente/Pago (simetría y letra) */
+.reserva-form {
+    /* 1. Responsividad y Centrado (simetría) */
+    max-width: 800px; /* Ancho máximo para el formulario */
+    margin-left: auto;
+    margin-right: auto;
+    
+    /* 2. Color de la letra: Gris oscuro para labels y títulos */
+    color: #333333; 
+}
+
+.reserva-form .form-label {
+    color: #333333 !important;
+    font-weight: 600;
+}
+
+/* Estilos para el contenedor de la tabla de Reservas/Clientes/Pagos (redondeo) */
+.reserva-table-container {
+    max-width: 800px; /* Ancho máximo igual al del formulario para simetría */
+    margin-left: auto; 
+    margin-right: auto;
+    margin-top: 1rem;
+    margin-bottom: 3rem; 
+    
+    border-radius: 0.75rem; /* Redondeo de las esquinas */
+    overflow: hidden; /* Crucial para ocultar esquinas de las rayas de la tabla */
+    border: 1px solid #dee2e6; /* Borde sutil */
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.reserva-table-container .table {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    width: 100%;
+}
+
+/* --- NUEVOS ESTILOS PARA BOTONES EN PARTE INFERIOR (Centrado y Ancho Fijo) --- */
+
+.centered-button-container {
+    max-width: 800px; /* Ancho máximo para consistencia con tabla/formulario */
+    margin: 1.5rem auto 3rem auto; /* Margen superior (mt-3) y margen inferior (mb-5), y centrado horizontal */
+    display: flex;
+    justify-content: center; /* Centra el botón dentro del contenedor */
+}
+
+/* Estilo del botón dentro del contenedor */
+.centered-button-container .btn {
+    width: 100%; 
+    max-width: 300px; /* Limita el ancho del botón para que no se estire demasiado */
+    font-weight: 600;
+}
+
+
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
   .main-container {
@@ -415,4 +541,34 @@
   .empty-state-text {
     color: #a0aec0; /* slate-400 */
   }
+  
+    /* Sobrescritura de colores del formulario/tabla en Modo Oscuro */
+    /* Formulario */
+    .reserva-form {
+        background-color: #2d3748 !important; 
+        border-color: #4a5568 !important;
+        color: #040404 !important; /* Texto claro */
+    }
+    .reserva-form .form-label {
+        color: #000000 !important; 
+    }
+    .reserva-form .form-control {
+        background-color: #4a5568 !important;
+        color: #f7fafc !important;
+        border-color: #6c757d !important;
+    }
+    
+    /* Tabla Container */
+    .reserva-table-container {
+        border-color: #4a5568; 
+        background-color: #2d3748; 
+    }
+    .reserva-table-container .table {
+        --bs-table-color: #f7fafc; 
+        --bs-table-bg: transparent; 
+        --bs-table-border-color: #4a5568;
+    }
+    .reserva-table-container .table-striped > tbody > tr:nth-of-type(odd) > * {
+        background-color: rgba(74, 85, 104, 0.3) !important;
+    }
 }

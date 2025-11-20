@@ -18,7 +18,7 @@ const ClientsTable = () => {
   const [clientes, setClientes] = useState([]);
   const [formData, setFormData] = useState(formVacio);
   const [errorFormulario, setErrorFormulario] = useState(null);
-  const [modo, setModo] = useState('lista'); // Añadido modo para edición/creación
+  const [modo, setModo] = useState('lista'); 
   const navigate = useNavigate();
 
   const cargarDatos = async () => {
@@ -103,8 +103,9 @@ const ClientsTable = () => {
   };
 
   const renderFormulario = () => (
-    <form onSubmit={handleSubmit} className="border p-4 rounded bg-light mb-4">
-      <h3>{modo === 'crear' ? 'Registrar Nuevo Cliente' : 'Editar Cliente'}</h3>
+    <form onSubmit={handleSubmit} className="reserva-form border p-4 rounded bg-light mb-4">
+      {/* Título modificado: solo muestra "Editar Cliente" */}
+      <h3>{modo === 'editar' ? 'Editar Cliente' : ''}</h3>
       <h4>Datos Personales</h4>
       <div className="row">
         <div className="col-md-6 mb-3"><label htmlFor="nombre" className="form-label">Nombre</label><input type="text" className="form-control" id="nombre" name="nombre" value={formData.nombre} onChange={handleChange} required /></div>
@@ -127,67 +128,86 @@ const ClientsTable = () => {
       )}
 
       <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="button" className="app-button" onClick={handleCancelar} style={{marginRight: '10px'}}>Cancelar</button>
-        <button type="submit" className="app-button" >{modo === 'crear' ? 'Guardar Cliente' : 'Guardar Cambios'}</button>
+        <button type="button" className="btn btn-secondary me-3" onClick={handleCancelar}>Cancelar</button>
+        <button type="submit" className="btn btn-primary" >{modo === 'crear' ? 'Guardar Cliente' : 'Guardar Cambios'}</button>
       </div>
     </form>
   );
 
   return (
     <div>
-      <button className="app-button btn-success mb-3" onClick={() => setModo('crear')}>Registrar Nuevo Cliente</button>
+      <h2>Clientes</h2> 
       
-      {modo !== 'lista' && renderFormulario()}
+      {/* ELIMINADO: renderFormulario en la parte superior. */}
 
       <hr className="my-4" />
 
       <h2>Clientes Existentes</h2>
-      <Table className="table table-striped mt-3">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>DNI</th>
-            <th>Pasaporte</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>ID Dirección</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {clientes.map((cliente) => (
-            <tr key={cliente.id_cliente}>
-              <td>{cliente.id_cliente}</td>
-              <td>{cliente.nombre}</td>
-              <td>{cliente.apellido}</td>
-              <td>{cliente.dni}</td>
-              <td>{cliente.pasaporte}</td>
-              <td>{cliente.email}</td>
-              <td>{cliente.telefono}</td>
-              <td>{cliente.id_direccion}</td>
-              <td>
-                <div>
-                  <button
-                    className="app-button btn-warning btn-sm me-2 boton-accion"
-                    onClick={() => handleEditar(cliente)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="app-button btn-danger btn-sm me-2 boton-accion"
-                    onClick={() => borrarCliente(cliente.id_cliente)}
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              </td>
+      
+      {/* Contenedor de la tabla */}
+      <div className="reserva-table-container"> 
+        <Table className="table table-striped mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>DNI</th>
+              <th>Pasaporte</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>ID Dirección</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+
+          <tbody>
+            {clientes.map((cliente) => (
+              <tr key={cliente.id_cliente}>
+                <td>{cliente.id_cliente}</td>
+                <td>{cliente.nombre}</td>
+                <td>{cliente.apellido}</td>
+                <td>{cliente.dni}</td>
+                <td>{cliente.pasaporte}</td>
+                <td>{cliente.email}</td>
+                <td>{cliente.telefono}</td>
+                <td>{cliente.id_direccion}</td>
+                <td>
+                  <div>
+                    <button
+                      className="btn btn-warning btn-sm me-2 boton-accion"
+                      onClick={() => handleEditar(cliente)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm me-2 boton-accion"
+                      onClick={() => borrarCliente(cliente.id_cliente)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+      
+      {/* BLOQUE DE ACCIÓN INFERIOR: Botón SIEMPRE visible, Formulario CONDICIONAL (ambos abajo) */}
+      
+      {/* 1. Botón (Siempre visible, centrado y simétrico) */}
+      <div className="centered-button-container">
+        <button 
+            className="btn btn-success" // Clase btn-success para el color morado/azul claro
+            onClick={() => setModo('crear')}
+        >
+            Registrar Nuevo Cliente
+        </button>
+      </div>
+      
+      {/* 2. Formulario (Solo se renderiza al hacer click o editar) */}
+      {modo !== 'lista' && renderFormulario()}
     </div>
   );
 };

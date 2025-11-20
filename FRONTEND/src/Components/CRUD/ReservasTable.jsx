@@ -168,8 +168,9 @@ const ReservasTable = () => {
   };
 
   const renderFormulario = () => (
-    <form onSubmit={handleSubmit} className="border p-4 rounded bg-light mb-4">
-      <h3>{modo === 'crear' ? 'Registrar Nueva Reserva' : 'Editar Reserva'}</h3>
+    <form onSubmit={handleSubmit} className="reserva-form border p-4 rounded bg-light mb-4">
+      {/* Título modificado: solo muestra "Editar Reserva" */}
+      <h3>{modo === 'editar' ? 'Editar Reserva' : ''}</h3> 
       <h4>Datos del Cliente</h4>
       <div className="row">
         <div className="col-md-6 mb-3"><label htmlFor="nombre" className="form-label">Nombre</label><input type="text" className="form-control" id="nombre" name="nombre" value={formData.nombre} onChange={handleChange} required /></div>
@@ -218,7 +219,7 @@ const ReservasTable = () => {
       )}
 
       <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="button" className="btn btn-secondary" onClick={handleCancelar}>Cancelar</button>
+        <button type="button" className="btn btn-secondary me-3" onClick={handleCancelar}>Cancelar</button>
         <button type="submit" className="btn btn-primary" >{modo === 'crear' ? 'Guardar Reserva' : 'Guardar Cambios'}</button>
       </div>
     </form>
@@ -227,54 +228,72 @@ const ReservasTable = () => {
   return (
     <div>
       <h2>Reservas</h2>
-      <button className="btn btn-success mb-3" onClick={() => setModo('crear')}>Registrar Nueva Reserva</button>
       
-      {modo !== 'lista' && renderFormulario()}
+      {/* ELIMINADO: renderFormulario en la parte superior. */}
 
       <hr className="my-4" />
 
       <h2>Reservas Existentes</h2>
-      <table className="table table-striped mt-3">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Entrada</th>
-            <th>Salida</th>
-            <th>ID Habitación</th>
-            <th>ID Cliente</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservas.map((reserva) => (
-            <tr key={reserva.id_reserva}>
-              <td>{reserva.id_reserva}</td>
-              <td>{new Date(reserva.fecha_entrada).toLocaleDateString()}</td>
-              <td>{new Date(reserva.fecha_salida).toLocaleDateString()}</td>
-              <td>{reserva.id_habitacion}</td>
-              <td>{reserva.id_cliente}</td>
-              <td>{reserva.estado}</td>
-              <td>
-                <div>
-                  <button
-                    className="btn btn-warning btn-sm me-2"
-                    onClick={() => handleEditar(reserva)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm me-2"
-                    onClick={() => borrarReserva(reserva.id_reserva)}
-                  >
-                    Borrar
-                  </button>
-                </div>
-              </td>
+      
+      {/* Contenedor de la tabla para redondeo y centrado */}
+      <div className="reserva-table-container">
+        <table className="table table-striped mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Entrada</th>
+              <th>Salida</th>
+              <th>ID Habitación</th>
+              <th>ID Cliente</th>
+              <th>Estado</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {reservas.map((reserva) => (
+              <tr key={reserva.id_reserva}>
+                <td>{reserva.id_reserva}</td>
+                <td>{new Date(reserva.fecha_entrada).toLocaleDateString()}</td>
+                <td>{new Date(reserva.fecha_salida).toLocaleDateString()}</td>
+                <td>{reserva.id_habitacion}</td>
+                <td>{reserva.id_cliente}</td>
+                <td>{reserva.estado}</td>
+                <td>
+                  <div>
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => handleEditar(reserva)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm me-2"
+                      onClick={() => borrarReserva(reserva.id_reserva)}
+                    >
+                      Borrar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+      {/* BLOQUE DE ACCIÓN INFERIOR: Botón SIEMPRE visible, Formulario CONDICIONAL (ambos abajo) */}
+
+      {/* 1. Botón (Siempre visible, centrado y simétrico) */}
+      <div className="centered-button-container">
+        <button 
+            className="btn btn-success" 
+            onClick={() => setModo('crear')}
+        >
+            Registrar Nueva Reserva
+        </button>
+      </div>
+      
+      {/* 2. Formulario (Solo se renderiza al hacer click o editar) */}
+      {modo !== 'lista' && renderFormulario()}
     </div>
   );
 };
