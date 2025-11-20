@@ -1,0 +1,41 @@
+body {
+    color: #1a202c;
+}
+
+.main-container {
+  background-color: #1a202c;
+  min-height: 100vh;
+}
+
+.dashboard-container {
+  background-color: #f8f9fa;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-table thead th {
+  background-color: #343a40;
+  color: white;
+  border-bottom: none;
+}
+
+.dashboard-table tbody tr:hover {
+  background-color: #e9ecef;
+  transform: scale(1.02);
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-table td, .dashboard-table th {
+  vertical-align: middle;
+  padding: 1rem;
+}
+
+.dashboard-table .material-symbols-outlined {
+  color: #495057;
+}
+
+.icon-col {
+  width: 5%;
+}

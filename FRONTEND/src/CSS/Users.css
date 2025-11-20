@@ -1,0 +1,136 @@
+.contenedor {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.498), rgba(0, 0, 0, 0.5)), url('https://media.istockphoto.com/id/512882668/es/foto/ingresar-habitaci%C3%B3n-del-hotel.jpg?s=612x612&w=0&k=20&c=mHWqKOnoXdTSNdGA6XWbRXjkVGhFjKFmHVSN3uHzp4w=');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  padding-top: 100px;
+}
+.contenedor-tabla {
+  background-color: rgba(255, 255, 255, 0.087);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.542);
+  overflow-x: auto;
+}
+
+.cabecera {
+  background-color: rgba(29, 48, 60, 0.8);
+  color: #F0C315;
+  padding: 10px;
+  text-align: center;
+  border-radius: 7px;
+  width: 100%;
+  position: relative;
+}
+
+.cabecera h1 {
+  margin: 0;
+}
+
+.contenido {
+  padding-top: 170px;
+  margin-top: 200px;
+  margin-bottom: 30px;
+  width: 90%;
+  max-width: 1200px;
+  margin: 50px auto 30px auto;
+  background-color: rgba(255, 255, 255, 0.171);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  max-height: 100%;
+}
+
+.subtitulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.subtitulo h2 {
+  margin: 0;
+}
+
+.botones-acciones {
+  margin-left: 20px;
+}
+
+.boton-accion {
+  background-color: #92a3aaa2;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 3px 10px;
+  border-radius: 5px;
+}
+
+.boton-accion:hover {
+  background-color: #E05F17;
+  color: white;
+  font-size: 20px;
+}
+
+.tabla-datos {
+  border-collapse: collapse;
+  width: 100%;
+  padding: 20px;
+}
+
+.tabla-datos th, .tabla-datos td {
+  border: 1px solid #92A3AA;
+  padding: 20px;
+  text-align: left;
+}
+
+.tabla-datos th {
+  background-color: #1D303C;
+  color: #F0C315;
+}
+
+.tabla-datos tr:nth-child(even) {
+  background-color: rgba(47, 27, 20, 0.05);
+}
+
+.boton-volver {
+  background-color: #92A3AA;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+}
+.boton-editar:hover{
+    background-color: rgba(172, 255, 47, 0.492);
+    color: black;
+    border: none;
+    transform: scale(1.1);
+}
+.boton-ver:hover{
+    background-color: rgba(47, 154, 255, 0.492);
+    color: black;
+    transform: scale(1.1);
+}
+.boton-elimiar:hover{
+    background-color: rgba(255, 120, 47, 0.492);
+    color: black;
+    transform: scale(1.1);
+}
+.boton-volver:hover {
+  background-color: #E05F17;
+  transform: scale(1.1);
+}
