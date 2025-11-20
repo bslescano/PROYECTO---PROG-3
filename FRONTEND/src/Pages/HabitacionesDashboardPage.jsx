@@ -210,9 +210,7 @@ const HabitacionesDashboardPage = () => {
         </main>
       </div>
 
-      <button className="fab-button" onClick={handleOpenModalParaCrear}>
-        <span className="material-symbols-outlined">add</span>
-      </button>
+  
 
       <HabitacionForm
         isOpen={isModalOpen}

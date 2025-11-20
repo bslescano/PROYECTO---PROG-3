@@ -56,36 +56,9 @@ header {
   color: #ffffff;
 }
 
-.header-button {
-  padding: 0.6rem 1.2rem;
-  border: 1px solid #fcd29c;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s, color 0.3s;
-  cursor: pointer;
-  background-color: transparent;
-  font-family: 'Manrope', sans-serif;
-}
-
-.admin-button, .login-button {
-  color: #fcd29c;
-}
-
-.admin-button:hover, .login-button:hover {
-  background-color: #fcd29c;
-  color: #2F1B14;
-}
-
-.logout-button {
-  color: #ffffff;
-  border-color: #A0522D;
-  background-color: #A0522D;
-}
-
 .logout-button:hover {
-  background-color: #CD853F;
-  border-color: #CD853F;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--white);
 }
 
 .welcome-button {
@@ -95,6 +68,7 @@ header {
   cursor: default;
   text-transform: capitalize;
 }
+
 header .container {
   display: flex;
   align-items: center;
@@ -104,7 +78,7 @@ header .container {
 }
 
 .header-logo {
-  height: 90px; /* Incrementado para hacerlo más grande */
+  height: 90px;
   width: auto;
   margin: 0;
 }
@@ -121,7 +95,7 @@ header .container {
   gap: 0.5rem;
 }
 
-.header-link, .header-user-text {
+.header-link, .header-user-text, .login-button, .admin-button, .header-button {
   color: var(--white);
   font-size: 1rem;
   font-weight: 500;
@@ -139,11 +113,16 @@ header .container {
   color: var(--white);
 }
 
-.dark .header-link, .dark .header-user-text {
+.admin-button:hover {  
+  background-color: rgba(255, 255, 255, 0.1);
   color: var(--white);
 }
 
-.dark .header-link:hover {
+.dark .header-link, .dark .header-user-text .login-button {
+  color: var(--white);
+}
+
+.dark .header-link .login-button .admin-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--white);
 }

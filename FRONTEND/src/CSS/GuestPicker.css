@@ -1,0 +1,100 @@
+.guest-picker-dropdown {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  z-index: 100;
+  min-width: 250px;
+  top: 100%; /* Posiciona debajo del input de huéspedes */
+  left: 0;
+  margin-top: 5px; /* Pequeño espacio entre el input y el dropdown */
+}
+
+.guest-picker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 1em;
+  color: #333;
+}
+
+.guest-picker-row p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.guest-picker-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guest-picker-controls button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.guest-picker-controls button:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.guest-picker-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.guest-picker-controls span {
+  font-size: 1.1em;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.guest-picker-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.guest-picker-actions button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease;
+}
+
+.guest-picker-actions .cancel-button {
+  background-color: #e0e0e0;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.guest-picker-actions .cancel-button:hover {
+  background-color: #d0d0d0;
+}
+
+.guest-picker-actions .accept-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.guest-picker-actions .accept-button:hover {
+  background-color: #0056b3;
+}

@@ -43,14 +43,14 @@ html, body, #root {
   margin: 0;
 }
 
-.nav-link {
+.sidebar-nav .nav-link { /* <-- Hacemos la regla más específica */
   display: flex;
   align-items: center;
   padding: 15px 25px;
   color: #bdc3c7;
   text-decoration: none;
   transition: 0.3s;
-  font-size: 1rem;
+  font-size: 1rem; /* <-- Tu cambio para agrandar la letra */
   border-left: 4px solid transparent;
 }
 

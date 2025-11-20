@@ -35,9 +35,6 @@ const AdminPage = () => {
         </main>
       </div>
 
-      <button className="fab-button" onClick={() => window.scrollTo(0, 0)}>
-        <span className="material-symbols-outlined">add</span>
-      </button>
     </div>
   );
 };

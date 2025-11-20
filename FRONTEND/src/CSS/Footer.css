@@ -1,6 +1,6 @@
 footer {
-  background-color: #2F1B14;
-  color: #FFFFFF;
+  background-color: #0D161A;
+  color: #8E9AA0;
 }
 footer .container {
   padding-top: 3rem;
@@ -17,7 +17,7 @@ footer .about-us {
 footer h3 {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #FFFFFF;
+  color: #D6DDE0;
   margin-bottom: 1rem;
   margin-top: 0;
 }
@@ -38,7 +38,7 @@ footer .social-links a {
   transition: color 0.3s;
 }
 footer .social-links a:hover {
-  color: #fcd29c;
+  color: #23A8F2;
 }
 footer .social-links svg {
   width: 1.5rem;
@@ -59,10 +59,10 @@ footer .link-list a {
   transition: color 0.3s;
 }
 footer .link-list a:hover {
-  color: #fcd29c;
+  color: #23A8F2;
 }
 footer .copyright {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid #1E2A30;
   margin-top: 2rem;
   padding-top: 1.5rem;
   text-align: center;

@@ -1,9 +1,96 @@
-import React from "react";
+import React, { useState } from "react";
 import "../CSS/Main.css";
 import Footer from "./Footer";
+import GuestPicker from "./GuestPicker"; // Importar el nuevo componente
 
 
 export default function Main() {
+  const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
+  const [numAdults, setNumAdults] = useState(1); // Valor inicial para adultos
+  const [numChildren, setNumChildren] = useState(0); // Valor inicial para niños
+  const [showGuestPicker, setShowGuestPicker] = useState(false);
+  const [availabilityMessage, setAvailabilityMessage] = useState('Cargando disponibilidad...');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const toggleAvailabilityModal = () => {
+    setShowAvailabilityModal(!showAvailabilityModal);
+  };
+
+  const handleCheckInDateChange = (e) => {
+    setCheckInDate(e.target.value);
+    // Si la fecha de salida es anterior a la nueva fecha de entrada, ajustarla
+    if (checkOutDate && e.target.value && new Date(checkOutDate) <= new Date(e.target.value)) {
+      const newCheckOut = new Date(e.target.value);
+      newCheckOut.setDate(newCheckOut.getDate() + 1); // Establecer la salida al día siguiente de la entrada
+      setCheckOutDate(newCheckOut.toISOString().split('T')[0]);
+    }
+  };
+
+  const handleCheckOutDateChange = (e) => {
+    // Asegurarse de que la fecha de salida no sea anterior a la fecha de entrada
+    if (checkInDate && new Date(e.target.value) <= new Date(checkInDate)) {
+      // Opcional: mostrar un error al usuario o ajustar automáticamente
+      const newCheckOut = new Date(checkInDate);
+      newCheckOut.setDate(newCheckOut.getDate() + 1); // Forzar la salida al día siguiente de la entrada
+      setCheckOutDate(newCheckOut.toISOString().split('T')[0]);
+    } else {
+      setCheckOutDate(e.target.value);
+    }
+  };
+
+  // Funciones para manejar el GuestPicker
+  const handleGuestPickerClick = () => {
+    setShowGuestPicker(!showGuestPicker);
+  };
+
+  const handleGuestConfirm = (adults, children) => {
+    setNumAdults(adults);
+    setNumChildren(children);
+    setShowGuestPicker(false);
+  };
+
+  const handleGuestCancel = () => {
+    setShowGuestPicker(false);
+  };
+
+  const checkAvailability = async () => {
+    setIsLoading(true);
+    setError(null);
+    setAvailabilityMessage('Cargando disponibilidad...');
+    setShowAvailabilityModal(true); // Abrir el modal inmediatamente al iniciar la verificación
+
+    try {
+      const backendUrl = 'http://localhost:3000/api/habitaciones/check-availability'; 
+      const response = await fetch(backendUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ checkInDate, checkOutDate, adults: numAdults, children: numChildren }), // Enviar adultos y niños
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error al verificar disponibilidad');
+      }
+
+      const data = await response.json();
+      if (data.available) {
+        setAvailabilityMessage('¡Hay habitaciones disponibles para las fechas seleccionadas!');
+      } else {
+        setAvailabilityMessage('Lo sentimos, no hay habitaciones disponibles para las fechas y número de huéspedes seleccionados.');
+      }
+    } catch (err) {
+      setError(err.message);
+      setAvailabilityMessage('Error: No se pudo verificar la disponibilidad. Intente nuevamente más tarde.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div>
       <div className="page-wrapper">
@@ -30,27 +117,52 @@ export default function Main() {
                 <div className="grid">
                   <label>
                     <p>Entrada</p>
-                    <input className="form-input" type="date" />
+                    <input className="form-input" type="date" value={checkInDate} onChange={handleCheckInDateChange} />
                   </label>
                   <label>
                     <p>Salida</p>
-                    <input className="form-input" type="date" />
+                    <input 
+                      className="form-input" 
+                      type="date" 
+                      value={checkOutDate} 
+                      onChange={handleCheckOutDateChange}
+                      min={checkInDate} // Establece la fecha mínima de salida
+                    />
                   </label>
-                  <label>
+                  <label className="guest-picker-label-container">
                     <p>Huéspedes</p>
-                    <select className="form-select">
-                      <option>2 adultos, 0 niños</option>
-                      <option>2 adultos, 1 niño</option>
-                      <option>1 adulto, 0 niños</option>
-                    </select>
+                    <div className="form-input guest-display" onClick={handleGuestPickerClick}>
+                      {`${numAdults} adulto${numAdults !== 1 ? 's' : ''}, ${numChildren} niño${numChildren !== 1 ? 's' : ''}`}
+                    </div>
+                    {showGuestPicker && (
+                      <GuestPicker
+                        initialAdults={numAdults}
+                        initialChildren={numChildren}
+                        onConfirm={handleGuestConfirm}
+                        onCancel={handleGuestCancel}
+                      />
+                    )}
                   </label>
-                  <button className="app-button">
+                  <button className="app-button" onClick={checkAvailability}>
                     <span>Ver Disponibilidad</span>
                   </button>
                 </div>
               </div>
             </div>
           </section>
+
+          {showAvailabilityModal && (
+            <div className="availability-modal-overlay" onClick={toggleAvailabilityModal}>
+              <div className="availability-modal-content" onClick={(e) => e.stopPropagation()}>
+                <h2>Disponibilidad</h2>
+                {isLoading && <p>Cargando disponibilidad...</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {!isLoading && !error && <p>{availabilityMessage}</p>}
+                <p>Para acordar una estadía o sacarse dudas, llame al: <strong>+54 9 3811234567</strong></p>
+                <button onClick={toggleAvailabilityModal}>Cerrar</button>
+              </div>
+            </div>
+          )}
 
           <section className="rooms-section">
             <div className="container">
