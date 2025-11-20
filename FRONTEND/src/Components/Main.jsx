@@ -25,7 +25,7 @@ export default function Main() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/habitaciones`);
+        const response = await fetch(`${API_BASE_URL}/habitaciones`); // Esta URL sigue siendo correcta
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -86,7 +86,7 @@ export default function Main() {
     setShowAvailabilityModal(true);
 
     try {
-      const backendUrl = `${API_BASE_URL}/habitaciones/check-availability`; 
+      const backendUrl = `${API_BASE_URL}/habitaciones/check-availability`; // Esta URL también es correcta ahora
       const response = await fetch(backendUrl, {
         method: 'POST',
         headers: {
@@ -96,8 +96,14 @@ export default function Main() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Error al verificar disponibilidad');
+        let errorMessage = `Error: ${response.status} ${response.statusText}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          // La respuesta de error no era JSON, usar el mensaje de estado HTTP
+        }
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
@@ -166,7 +172,11 @@ export default function Main() {
                       />
                     )}
                   </label>
-                  <button className="app-button" onClick={checkAvailability}>
+                  <button 
+                    className="app-button" 
+                    onClick={checkAvailability}
+                    disabled={!checkInDate || !checkOutDate}
+                  >
                     <span>Ver Disponibilidad</span>
                   </button>
                 </div>
