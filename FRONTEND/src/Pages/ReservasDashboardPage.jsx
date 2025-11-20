@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import ReservasTable from '../Components/CRUD/ReservasTable';
 import '../CSS/HabitacionesDashboardPage.css';
-
+import Header from '../Components/Header';
 const ReservasDashboardPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
+     <>
+      <Header />
     <div className="main-container">
       <div className="content-wrapper">
         <header className="top-app-bar">
@@ -38,6 +40,7 @@ const ReservasDashboardPage = () => {
         <span className="material-symbols-outlined">add</span>
       </button>
     </div>
+    </>
   );
 };
 

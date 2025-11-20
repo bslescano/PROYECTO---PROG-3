@@ -180,7 +180,7 @@ const PagosTable = () => {
 
   return (
     <div>
-      <h2>Pagos</h2> {/* Título principal */}
+     
       
       {/* ELIMINADO: renderFormulario en la parte superior. */}
 

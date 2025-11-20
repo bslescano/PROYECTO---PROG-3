@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import ClientsTable from '../Components/CRUD/ClientsTable';
 import '../CSS/HabitacionesDashboardPage.css';
+import Header from '../Components/Header';
 
 const ClientsDashboardPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
+   <>
+      <Header />
+
     <div className="main-container">
       <div className="content-wrapper">
         <header className="top-app-bar">
           <button className="menu-button">
             <span className="material-symbols-outlined">menu</span>
           </button>
-          <h1 className="page-title">Gestionar Clientes</h1>
+          
           <div className="spacer"></div>
         </header>
 
@@ -39,6 +43,7 @@ const ClientsDashboardPage = () => {
         <span className="material-symbols-outlined">add</span>
       </button>
     </div>
+    </>
   );
 };
 

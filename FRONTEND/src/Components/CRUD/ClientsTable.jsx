@@ -136,7 +136,7 @@ const ClientsTable = () => {
 
   return (
     <div>
-      <h2>Clientes</h2> 
+ 
       
       {/* ELIMINADO: renderFormulario en la parte superior. */}
 

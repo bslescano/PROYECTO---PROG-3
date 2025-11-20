@@ -227,8 +227,7 @@ const ReservasTable = () => {
 
   return (
     <div>
-      <h2>Reservas</h2>
-      
+          
       {/* ELIMINADO: renderFormulario en la parte superior. */}
 
       <hr className="my-4" />

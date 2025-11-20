@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import '../CSS/HabitacionesDashboardPage.css';
 import HabitacionForm from '../Components/HabitacionForm';
+import Header from '../Components/Header';
 
 // Mapeo de estados para una visualización más amigable
 const statusMap = {
@@ -135,13 +136,16 @@ const HabitacionesDashboardPage = () => {
 
   // --- RENDERIZADO ---
   return (
+    <>
+    <Header />
+
     <div className="main-container">
       <div className="content-wrapper">
         <header className="top-app-bar">
           <button className="menu-button">
             <span className="material-symbols-outlined">menu</span>
           </button>
-          <h1 className="page-title">Gestionar Habitaciones</h1>
+        
           <div className="spacer"></div>
         </header>
 
@@ -219,6 +223,7 @@ const HabitacionesDashboardPage = () => {
         habitacion={currentHabitacion}
       />
     </div>
+    </>
   );
 };
 

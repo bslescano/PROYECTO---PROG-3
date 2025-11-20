@@ -1,7 +1,7 @@
 // FRONTEND/src/Components/Admin.jsx
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { RESERVAS_DASHBOARD, CLIENTS_DASHBOARD, HABITACIONES_DASHBOARD, PAGOS_DASHBOARD, ADMIN, HOME } from '../Routers/Router'; // Asegúrate que la importación coincida con el nombre del archivo (router.js o Router.js)
+import { RESERVAS_DASHBOARD, CLIENTS_DASHBOARD, HABITACIONES_DASHBOARD, PAGOS_DASHBOARD, ADMIN, HOME } from '../Routers/router'; // Asegúrate que la importación coincida con el nombre del archivo (router.js o Router.js)
 import '../CSS/Admin.css';
 
 const Admin = () => {
