@@ -27,11 +27,11 @@ const obtenerUsuarioPorId = (req, res) => {
 };
 
 const agregarUsuario = (req, res) => {
-    const { usuario, contraseña, id_rol } = req.body;
-    const sql = "INSERT INTO usuarios (usuario, contraseña, id_rol) VALUES (?, ?, ?)";
+    const { usuario, contraseña, id_rol, url_imagen, descripcion} = req.body;
+    const sql = "INSERT INTO usuarios (usuario, contraseña, id_rol, url_imagen, descripcion) VALUES (?, ?, ?, ?, ?)";
     connection.query(
         sql,
-        [usuario, contraseña, id_rol],
+        [usuario, contraseña, id_rol, url_imagen, descripcion],
         (err, results) => {
             if (err) {
                 res.status(500).json({ error: "Error al agregar el usuario" });
@@ -60,12 +60,12 @@ const eliminarUsuario = (req, res) => {
 
 const actualizarUsuario = (req, res) => {
     const id = req.params.id;
-    const { id_usuario, usuario, contraseña, id_rol } = req.body;
+    const { id_usuario, usuario, contraseña, id_rol, url_imagen, descripcion } = req.body;
     const sql =
-        "UPDATE usuarios SET id_usuario = ?, usuario = ?, contraseña = ?, id_rol = ? WHERE id_usuario = ?";
+        "UPDATE usuarios SET id_usuario = ?, usuario = ?, contraseña = ?, url_imagen = ?, descripcion = ?, id_rol = ? WHERE id_usuario = ?";
     connection.query(
         sql,
-        [id_usuario, usuario, contraseña, id_rol, id],
+        [id_usuario, usuario, contraseña, id_rol, id, url_imagen, descripcion],
         (err, results) => {
             if (err) {
                 res.status(500).json({ error: "Error al actualizar el usuario" });
