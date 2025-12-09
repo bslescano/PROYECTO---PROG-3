@@ -144,8 +144,7 @@ const HabitacionesDashboardPage = () => {
         <header className="top-app-bar">
           <button className="menu-button">
             <span className="material-symbols-outlined">menu</span>
-          </button>
-        
+          </button>        
           <div className="spacer"></div>
         </header>
 

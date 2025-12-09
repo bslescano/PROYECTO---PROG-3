@@ -83,7 +83,6 @@ const HabitacionesTable = () => {
 
   return (
     <Container>
-      <h2 className="my-4">Gestión de Habitaciones</h2>
       <Button variant="success" className="mb-3" onClick={() => handleOpenForm()}>Registrar Nueva Habitación</Button>
 
       {errorFormulario && (

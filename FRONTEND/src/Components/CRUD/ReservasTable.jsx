@@ -229,8 +229,7 @@ const ReservasTable = () => {
     <div>
           
       {/* ELIMINADO: renderFormulario en la parte superior. */}
-
-      <hr className="my-4" />
+      <div className="spacer"></div>
 
       <h2>Reservas Existentes</h2>
       

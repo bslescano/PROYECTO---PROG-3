@@ -100,7 +100,7 @@
 
 .tabs-container {
   display: flex;
-  border-bottom: 1px solid #e2e8f0; /* border-b border-slate-200 */
+  border-bottom: 1px solid #16252C; /* border-b border-slate-200 */
   padding-left: 1rem; /* px-4 */
   padding-right: 1rem; /* px-4 */
 }
@@ -114,6 +114,10 @@
   border-bottom: 3px solid transparent;
   padding-bottom: 0.8125rem; /* pb-[13px] */
   padding-top: 1rem; /* pt-4 */
+  background-color: #16252C;
+  border-radius: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .tab-link.active {
@@ -121,7 +125,7 @@
 }
 
 .tab-text {
-  font-size: 0.875rem; /* text-sm */
+  font-size: 3rem; /* text-sm */
   font-weight: 700; /* font-bold */
   color: #718096; /* slate-500 */
 }
